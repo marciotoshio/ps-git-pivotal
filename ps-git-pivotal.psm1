@@ -1,8 +1,19 @@
-function Start-Story
-{
+function Start-Story {
 	if(CheckGitConfig) {
 		CheckPivotalConfig
 		ListLastFiveHistories
+	}
+}
+
+function Stop-Story {
+	$currentBranch = 'git rev-parse --abbrev-ref HEAD 2>$null'
+	$storyId = GetStoryIdFromBranch($currentBranch)
+	if((CheckGitConfig) -and ($storyId -ne '')) {
+		CheckPivotalConfig
+		git checkout master
+		git merge $currentBranch
+		$endpoint = ("/stories/{0}" -f $storyId)
+		PutData $endpoint "{`"current_state`":`"finished`"}"
 	}
 }
 
@@ -83,6 +94,16 @@ function CheckPivotalConfig() {
 	if($pivotalProjectId -eq $null) {
 		$pivotalProjectId = Read-Host "You need to set your Pivotal Project Id, please inform it here"
 		git config -f .git/config pivotal.project-id $pivotalProjectId
+	}
+}
+
+function GetStoryIdFromBranch($currentBranch) {
+	Write-Host "========$currentBranch"
+	if($currentBranch -match '(feature|bug|chore)-(?<storyId>[0-9].+)') {
+		return $matches['storyId']
+	} else {
+		Write-Host "You need to be inside a story branch to finish a story"
+		return ''
 	}
 }
 
