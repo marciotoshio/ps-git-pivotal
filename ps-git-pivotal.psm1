@@ -1,10 +1,13 @@
 function Start-Story
 {
-	CheckPivotalConfig
-	ListLastFiveHistories
+	if(CheckGitConfig) {
+		CheckPivotalConfig
+		ListLastFiveHistories
+	}
 }
 
 function ListLastFiveHistories {
+	Write-Host 'Getting you stories...'
 	$stories = GetData "/stories?limit=5&with_state=unstarted"
 	Foreach ($story in $stories) {
 		Write-Host ("[{0}] {1} - {2}" -f $story.story_type, $story.id, $story.name) 
@@ -54,7 +57,16 @@ function GetWebClient($endpoint) {
 	return $webClient
 }
 
-function CheckPivotalConfig {
+function CheckGitConfig {
+	if(-not (Test-Path '.git')) {
+		Write-Host "You need to be inside a git repository"
+		return $false
+	} else {
+		return $true
+	}
+}
+
+function CheckPivotalConfig() {
 	$pivotalApiToken = Invoke-Expression 'git config --get pivotal.api-token 2>$null'
 	if($pivotalApiToken -eq $null) {
 		$pivotalApiToken = Read-Host "You need to set your Pivotal Tacker API Token, please inform it here"
