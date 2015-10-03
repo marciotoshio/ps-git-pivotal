@@ -85,13 +85,7 @@ function CheckPivotalConfig() {
 		$pivotalApiToken = Read-Host "You need to set your Pivotal Tacker API Token, please inform it here"
 		git config --global pivotal.api-token $pivotalApiToken
 	}
-
-	$pivotalFullName = Invoke-Expression 'git config --get pivotal.full-name 2>$null'
-	if($pivotalFullName -eq $null) {
-		$pivotalFullName = Read-Host "You need to set your Pivotal Tacker Name, please inform it here"
-		git config --global pivotal.full-name $pivotalFullName
-	}
-
+    
 	$pivotalProjectId = Invoke-Expression 'git config --get pivotal.project-id 2>$null'
 	if($pivotalProjectId -eq $null) {
 		$pivotalProjectId = Read-Host "You need to set your Pivotal Project Id, please inform it here"
