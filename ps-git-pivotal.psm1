@@ -6,7 +6,7 @@ function Start-Story {
 }
 
 function Stop-Story {
-	$currentBranch = 'git rev-parse --abbrev-ref HEAD 2>$null'
+	$currentBranch = Invoke-Expression 'git rev-parse --abbrev-ref HEAD 2>$null'
 	$storyId = GetStoryIdFromBranch($currentBranch)
 	if((CheckGitConfig) -and ($storyId -ne '')) {
 		CheckPivotalConfig
@@ -14,6 +14,7 @@ function Stop-Story {
 		git merge $currentBranch
 		$endpoint = ("/stories/{0}" -f $storyId)
 		PutData $endpoint "{`"current_state`":`"finished`"}"
+        git branch -d $currentBranch
 	}
 }
 
@@ -40,7 +41,8 @@ function CreateFeatureBranch($selectedHistoryId) {
 function PutData($endpoint, $data) {
 	$webClient = GetWebClient
 	$url = GetUrl $endpoint
-	$webClient.UploadString($url, 'PUT', $data)
+	$data = $webClient.UploadString($url, 'PUT', $data)
+    return $data | ConvertFrom-Json
 }
 
 function GetData($endpoint) {
@@ -98,7 +100,7 @@ function CheckPivotalConfig() {
 }
 
 function GetStoryIdFromBranch($currentBranch) {
-	Write-Host "========$currentBranch"
+    Write-Host $currentBranch
 	if($currentBranch -match '(feature|bug|chore)-(?<storyId>[0-9].+)') {
 		return $matches['storyId']
 	} else {
