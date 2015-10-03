@@ -1,6 +1,17 @@
-# ps-git-pivotal
-PowerShell script to implement a git workflow integrated with [PivotalTracker][1], heavily based on [git-pivotal][2]
+ps-git-pivotal
+=====
+PowerShell script to implement a git feature branch workflow integrated with [PivotalTracker][1], heavily based on [git-pivotal][2].
+You will need the git command in your path.
 
-You will need the git command in your path
+#Usage
+Start-Story
+-----------
+This command will list the top 5 stories in your PivotalTracker backlog and ask for a story id to start work on, after you choose an id a branch will be created and the story on pivotal will change to started.
+After that you can do your current work and commits as always.
+
+Stop-Story
+----------
+After you´re done run this command to merge the current branch into master, mark the story as finished in PivotalTracker and delete the created feature branch. 
+
 [1]: https://www.pivotaltracker.com/
 [2]: https://github.com/trydionel/git-pivotal
