@@ -4,7 +4,7 @@ PowerShell script to implement a git feature branch workflow integrated with [Pi
 You will need the git command in your path.
 
 #Usage
-Inside your git repository run the following commands. The script will ask for some config values in the first run, your PivotalTracker API token (you can find it in your profile page) the other config is the project id.
+Inside your git repository run the following commands. The script will ask for some config values in the first run, your PivotalTracker API token [(you can find it in your profile page)][5] the other config is the project id.
 
     Start-Story
     
@@ -32,3 +32,4 @@ As always you can fork and clone the repository inside the PowerShell modules pa
 [2]: https://github.com/trydionel/git-pivotal
 [3]: https://github.com/marciotoshio/ps-git-pivotal/raw/master/ps-git-pivotal.psm1
 [4]: http://psget.net/
+[5]: https://www.pivotaltracker.com/profile
