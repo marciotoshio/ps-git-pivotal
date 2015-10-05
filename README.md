@@ -1,6 +1,6 @@
 ps-git-pivotal
 --------------
-PowerShell script to implement a git feature branch workflow integrated with [PivotalTracker][1], heavily based on [git-pivotal][2].
+PowerShell script to implement a git feature branch workflow integrated with [PivotalTracker][1], based on [git-pivotal][2].
 You will need the git command in your path.
 
 #Usage
